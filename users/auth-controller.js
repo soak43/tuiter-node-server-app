@@ -20,7 +20,7 @@ const AuthController = (app) => {
         // const newUser = {...req.body, _id: new Date().getTime() + ""}
         // usersDao.createUser(newUser);
 
-        req.session["currentUser"] = newUser;
+        // req.session["currentUser"] = newUser;
         currentUserVar = newUser;
         res.json(newUser);
         // console.log(usersDao.findAllUsers);
@@ -31,7 +31,7 @@ const AuthController = (app) => {
         const password = req.body.password;
         const user = await usersDao.findUserByCredentials(username,password);
         if(user){
-            req.session["currentUser"] = user;
+            // req.session["currentUser"] = user;
             currentUserVar = user;
             res.json(user);
         }else{
@@ -73,7 +73,7 @@ const AuthController = (app) => {
         console.log("current user id = ", uid);
         console.log("updated user = ", updateUser);
         console.log("All users = ", usersDao.findAllUsers())
-        req.session["currentUser"] = updateUser;
+        // req.session["currentUser"] = updateUser;
         currentUserVar = updateUser;
         res.json(updateUser);
         

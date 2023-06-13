@@ -14,9 +14,19 @@ app.use(
       secret: "any string",
       resave: false,
       saveUninitialized: true,
+      store: new session.MemoryStore(),
     })
 );
    
+// app.use(
+//   session({
+//     secret: 'your-secret-key',
+//     resave: false,
+//     saveUninitialized: false,
+//     store: new session.MemoryStore(),
+//   })
+// );
+
 app.use(cors({
     credentials: true,
     origin: ["http://localhost:3000","https://a5--lustrous-pasca-38b123.netlify.app"],

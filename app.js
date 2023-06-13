@@ -13,7 +13,7 @@ app.use(
     session({
       secret: "any string",
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       store: new session.MemoryStore(),
     })
 );

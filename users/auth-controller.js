@@ -1,5 +1,7 @@
 import * as usersDao from "./users-dao.js";
 
+var currentUserVar;
+
 const AuthController = (app) => {
 
     const register = async (req,res) => {
@@ -17,7 +19,9 @@ const AuthController = (app) => {
         console.log(usersDao.findAllUsers());
         // const newUser = {...req.body, _id: new Date().getTime() + ""}
         // usersDao.createUser(newUser);
-        req.session["currentUser"] = newUser;
+
+        // req.session["currentUser"] = newUser;
+        currentUserVar = newUser;
         res.json(newUser);
         // console.log(usersDao.findAllUsers);
     };
@@ -27,7 +31,8 @@ const AuthController = (app) => {
         const password = req.body.password;
         const user = await usersDao.findUserByCredentials(username,password);
         if(user){
-            req.session["currentUser"] = user;
+            // req.session["currentUser"] = user;
+            currentUserVar = user;
             res.json(user);
         }else{
             res.sendStatus(404);
@@ -37,7 +42,8 @@ const AuthController = (app) => {
     const profile = async (req,res) => {
         console.log("inside profile controller");
         console.log("All users = ", usersDao.findAllUsers())
-        const currentUser = req.session["currentUser"];
+        // const currentUser = req.session["currentUser"];
+        const currentUser = currentUserVar;
   
         console.log(currentUser);
         if (!currentUser){
@@ -54,7 +60,8 @@ const AuthController = (app) => {
 
     const update = (req,res) => {
         
-        const uid = req.session["currentUser"];
+        // const uid = req.session["currentUser"];
+        const uid = currentUserVar;
         // const u = req.session["currentUser"];
         console.log("req.body = ", req.body)
         const updateUser = usersDao.updateUser(uid, req.body);
@@ -66,7 +73,8 @@ const AuthController = (app) => {
         console.log("current user id = ", uid);
         console.log("updated user = ", updateUser);
         console.log("All users = ", usersDao.findAllUsers())
-        req.session["currentUser"] = updateUser;
+        // req.session["currentUser"] = updateUser;
+        currentUserVar = updateUser;
         res.json(updateUser);
         
     };

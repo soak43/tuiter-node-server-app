@@ -1,10 +1,12 @@
-import posts from './tuits.js';
-let tuits = posts; 
+// import posts from './tuits.js';
+import * as tuitsDao from "./tuits-dao.js";
 
-const createTuit = (req, res) => {
+// let tuits = posts; 
+
+const createTuit = async(req, res) => {
 
     const newTuit = req.body;
-    newTuit._id = (new Date()).getTime() + '';
+    // newTuit._id = (new Date()).getTime() + '';
     newTuit.likes = 0;
     newTuit.liked = false;
     newTuit.disliked = false;
@@ -12,35 +14,44 @@ const createTuit = (req, res) => {
     newTuit.image = "nasalogo.png";
     newTuit.handle = "@nasa";
     newTuit.username = "NASA";
-    tuits.push(newTuit);
-    res.json(newTuit);
+    // tuits.push(newTuit);
+    const insertedTuit = await tuitsDao.createTuit(newTuit);
+    // res.json(newTuit);
+    res.json(insertedTuit);
 }
 
-const findTuit = (req, res) => {
+const findTuit = async(req, res) => {
+    const tuits = await tuitsDao.findTuits();
     res.json(tuits);
 }
 
-const updateTuit = (req, res) => {
+const updateTuit = async(req, res) => {
 
     console.log(req.body);
 
-    const tuitID = req.params['tid'];
+    // const tuitID = req.params['tid'];
+    const tuitIdToUpdate = req.params.tid;
     const updates = req.body;
     // const tuitIndex = tuits.find((t) => t._id === tuitID);
     // tuits[tuitIndex] = {...tuits[tuitIndex], ...updates};
 
-    tuits = tuits.map((t) => t._id === tuitID? 
-        {...t, ...updates} : t
-    );
-    res.sendStatus(200);
+    // tuits = tuits.map((t) => t._id === tuitID? 
+    //     {...t, ...updates} : t
+    // );
+    // res.sendStatus(200);
+    const status = await tuitsDao.updateTuit(tuitIdToUpdate,updates);
+    res.json(status);
     
 }
 
-const deleteTuit = (req, res) => {
+const deleteTuit = async(req, res) => {
 
-    const tuitID = req.params['tid'];
-    tuits = tuits.filter((t) => t._id !== tuitID);
-    res.sendStatus(200);
+    // const tuitID = req.params['tid'];
+    const tuitIdToDelete = req.params.tid;
+    const status = await tuitsDao.deleteTuit(tuitIdToDelete);
+    // tuits = tuits.filter((t) => t._id !== tuitID);
+    // res.sendStatus(200);
+    res.json(status);
 }
 
 export default (app) => {

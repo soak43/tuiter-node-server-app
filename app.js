@@ -58,7 +58,9 @@ app.use(
 
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000","https://a5--lustrous-pasca-38b123.netlify.app"],
+    origin: ["http://localhost:3000",
+    "https://a5--lustrous-pasca-38b123.netlify.app",
+    "https://a6--lustrous-pasca-38b123.netlify.app"],
 }));
 
 app.use(express.json());
